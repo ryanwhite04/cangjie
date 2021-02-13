@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Cangie from Chinese</title>
+    </head>
+    <body>
+        <input id="chinese" type="text"/>
+        <p id="cangjie"></p>
+    <script>
+        fetch('kCangjie.tsv').then(body => body.text())
+            .then(text => text.split('\n'))
+            .then(rows => rows.map(row => row.split('\t')))
+            .then(chars => chars.reduce((chars, [code, cangjie]) => {
+                chars[String.fromCodePoint(parseInt(code.slice(2), 16))] = cangjie;
+                return chars;
+            }, {}))
+    .then(chars => {
+        
+       document.getElementById('chinese').addEventListener('change', translate);
+        function translate(e) {
+            console.log('translate', e);
+            document.getElementById('cangjie').textContent = [...e.currentTarget.value].map(char => chars[char]).join(' ');
+        }
+    })
+            .catch(console.error)
+    </script>
+    </body>
+</html>
+
+
