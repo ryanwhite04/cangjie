@@ -9,24 +9,9 @@
     <body>
         <input id="chinese" type="text"/>
         <p id="cangjie"></p>
-    <script>
-        fetch('kCangjie.tsv').then(body => body.text())
-            .then(text => text.split('\n'))
-            .then(rows => rows.map(row => row.split('\t')))
-            .then(chars => chars.reduce((chars, [code, cangjie]) => {
-                chars[String.fromCodePoint(parseInt(code.slice(2), 16))] = cangjie;
-                return chars;
-            }, {}))
-    .then(chars => {
-        
-       document.getElementById('chinese').addEventListener('change', translate);
-        function translate(e) {
-            console.log('translate', e);
-            document.getElementById('cangjie').textContent = [...e.currentTarget.value].map(char => chars[char]).join(' ');
-        }
-    })
-            .catch(console.error)
-    </script>
+        <ul id="explanation">
+        </ul>
+        <script src="index.js"></script>
     </body>
 </html>
 
